@@ -1,3 +1,5 @@
 import main from "./src/index";
 
-exports = main;
+export default main;
+
+module.exports = main;
