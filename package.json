@@ -1,8 +1,8 @@
 {
   "name": "rm-session-populator",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "nyc mocha ./dist/test --recursive --exit --timeout 999999",
     "start": "node ./dist/index.js",
