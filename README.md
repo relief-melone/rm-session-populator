@@ -61,7 +61,7 @@ If you don't want to use Environment Variables on your Backend you can also inje
 app.use(
   sessionPopulate({
     AUTHENTICATOR_HOST: "https://my-own-host:443",
-    REJECT_WITHOUT_COOKIE: "false"
+    AUTHENTICATOR_REJECT_WITHOUT_COOKIE: "false"
   })
 );
 ```
