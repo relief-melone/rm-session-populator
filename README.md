@@ -2,7 +2,7 @@
 
 This Middleware is designed to work in NodeJS Express Backends with the rm-authenticator and a Front-End that is connected to that Authenticator as well.
 
-[Docker - rm-authenticator](https://cloud.docker.com/u/reliefmelone/repository/docker/reliefmelone/rm-authenticator)
+[Docker - rm-authenticator](https://cloud.docker.com/u/reliefmelone/repository/docker/reliefmelone/rm-authenticator)\
 [GitHub - rm-authenticator](https://github.com/relief-melone/rm-authenticator)
 
 When the Front-End sends you a request containing a session cookie, the middleware will automatically populate the request
