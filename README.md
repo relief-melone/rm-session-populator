@@ -2,6 +2,9 @@
 
 This Middleware is designed to work in NodeJS Express Backends with the rm-authenticator and a Front-End that is connected to that Authenticator as well.
 
+[Docker - rm-authenticator](https://cloud.docker.com/u/reliefmelone/repository/docker/reliefmelone/rm-authenticator)
+[GitHub - rm-authenticator](https://github.com/relief-melone/rm-authenticator)
+
 When the Front-End sends you a request containing a session cookie, the middleware will automatically populate the request
 Object with a user Property containing all the user information
 
@@ -19,9 +22,9 @@ The Configutation of this middleware is preferrably done via Environment variabl
 
 **AUTENTICATOR_USER_PATH:** The path to the endpoint where userinfo is stored. By default it uses the authenticators default /auth/userinfo
 
-**CREDENTIALS_COOKIE_NAME:**: The Name of the Session Cookie. Defaults to connect.sid
+**AUTHENTICATOR_CREDENTIALS_COOKIE_NAME:**: The Name of the Session Cookie. Defaults to connect.sid
 
-**REJECT_WITHOUT_COOKIE:** Determines the behaviour of the middleware. If set to true (which it is by default) it will automatically reject any request made to the backend as unauthorized that is missing a cookie. If it is set to false it will poplulate the user property with null
+**AUTHENTICATOR_REJECT_WITHOUT_COOKIE:** Determines the behaviour of the middleware. If set to true (which it is by default) it will automatically reject any request made to the backend as unauthorized that is missing a cookie. If it is set to false it will poplulate the user property with null
 
 To implement the middleware do the following
 
