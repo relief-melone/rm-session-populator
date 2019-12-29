@@ -1,23 +1,23 @@
-import { expect } from "chai";
-import express from "express";
-import cookieParser from "cookie-parser";
-import sessionPoplulator from "../src/index";
-import { RequestWithUser } from "../src/interfaces/RequestWithUser";
-import request from "supertest";
+import { expect } from 'chai';
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import sessionPoplulator from '../src/index';
+import { RequestWithUser } from '../src/interfaces/RequestWithUser';
+import request from 'supertest';
 
 const expectedUser = {
-  displayName: "TEST USER",
-  firstName: "TEST",
-  lastName: "USER"
+  displayName: 'TEST USER',
+  firstName: 'TEST',
+  lastName: 'USER'
 };
 
-async function initializeMockAuthenticator() {
+async function initializeMockAuthenticator(): Promise<any> {
   const receiver = express();
   receiver.use(cookieParser());
   receiver.use(express.json());
-  receiver.use("/auth/userinfo", (req, res, next) => {
+  receiver.use('/auth/userinfo', (req, res, next) => {
     if (!req.cookies) return res.status(401).send();
-    if (!req.cookies["connect.sid"]) return res.status(401).send();
+    if (!req.cookies['connect.sid']) return res.status(401).send();
     return res
       .status(200)
       .json(expectedUser)
@@ -29,59 +29,59 @@ async function initializeMockAuthenticator() {
   return receiver;
 }
 
-async function initializeSender(env = {}) {
+async function initializeSender(env = {}): Promise<any>  {
   const sender = express();
   sender.use(cookieParser());
   sender.use(express.json());
   sender.use(sessionPoplulator(env));
-  sender.use("/", (req: RequestWithUser, res, next) => {
+  sender.use('/', (req: RequestWithUser, res, next) => {
     res.json({ user: req.user }).send();
   });
   const server = await sender.listen(3000);
   return { sender, server };
 }
 
-async function closeServer(server) {
+async function closeServer(server): Promise<any>  {
   return new Promise((res, rej) => {
     server.close(res);
   });
 }
 
-describe("MAIN", () => {
+describe('MAIN', () => {
+  let express;
   before(async () => {
     await initializeMockAuthenticator();
+    
   });
-
-  it("will return a 401 without a cookie by default", async () => {
-    let express = await initializeSender();
-    await request(express.sender)
-      .get("/")
-      .expect(401);
-
+  afterEach(async () => {
     await closeServer(express.server);
   });
 
-  it("will retun a request with no user when reject has been turned off", async () => {
-    let express = await initializeSender({
-      REJECT_WITHOUT_COOKIE: "false"
+  it('will return a 401 without a cookie by default', async () => {
+    express = await initializeSender();
+    const sender = await request(express.sender).get('/');
+    
+    expect(sender.status).to.equal(401);
+  });
+
+  it('will retun a request with no user when reject has been turned off', async () => {
+    express = await initializeSender({
+      AUTHENTICATOR_REJECT_WITHOUT_COOKIE: 'false'
     });
-    let res = await request(express.sender)
-      .get("/")
-      .expect(200);
-
-    await closeServer(express.server);
+    const res = await request(express.sender).get('/');
+    
+    expect(res.status).to.equal(200);;
     expect(res.body.user).to.be.null;
   });
 
-  it("will return a request with a user when the cookie is supplied", async () => {
-    let express = await initializeSender();
+  it('will return a request with a user when the cookie is supplied', async () => {
+    express = await initializeSender();
 
-    let res = await request(express.sender)
-      .get("/")
-      .set("Cookie", "connect.sid=030818123456")
+    const res = await request(express.sender)
+      .get('/')
+      .set('Cookie', 'connect.sid=030818123456')
       .expect(200);
 
-    await closeServer(express.server);
     expect(res.body.user).to.deep.equal(expectedUser);
   });
 });
