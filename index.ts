@@ -1,4 +1,4 @@
-import main from "./src/index";
+import main from './src/index';
 
 export default main;
 
