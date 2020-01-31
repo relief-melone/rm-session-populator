@@ -32,7 +32,7 @@ You configure the Session Populator with the Options Object. This has several po
 
 **jwtKeyLocation:** Only needs to be set if jwtMode is key. Points to the Public Key in the file system. Defaults to /data/public_key.pem
 
-**
+**jwtHeaderName:** Session Populator will by default look for the Bearer token in the "Authorization" Header. If you want to use another header, you can change this here.
 
 To implement the middleware do the following
 
