@@ -16,15 +16,23 @@ Object with a user Property containing all the user information
 
 ## Use
 
-The Configutation of this middleware is preferrably done via Environment variables. Available Variables are
+You configure the Session Populator with the Options Object. This has several possible Settings
 
-**AUTHENTICATOR_HOST** Hostname where your rm-authenticator is running. By default it's http://localhost:8081
+**authenticatorHost** Hostname where your rm-authenticator is running. By default it's http://localhost:8081
 
-**AUTENTICATOR_USER_PATH:** The path to the endpoint where userinfo is stored. By default it uses the authenticators default /auth/userinfo
+**authenticatorUserPath:** The path to the endpoint where userinfo is stored. By default it uses the authenticators default /auth/userinfo
 
-**AUTHENTICATOR_CREDENTIALS_COOKIE_NAME:**: The Name of the Session Cookie. Defaults to connect.sid
+**credentialsCookieName:**: The Name of the Session Cookie. Defaults to connect.sid
 
-**AUTHENTICATOR_REJECT_WITHOUT_COOKIE:** Determines the behaviour of the middleware. If set to true (which it is by default) it will automatically reject any request made to the backend as unauthorized that is missing a cookie. If it is set to false it will poplulate the user property with null
+**rejectWithoutAuthentication:** Determines the behaviour of the middleware. If set to true (which it is by default) it will automatically reject any request made to the backend as unauthorized that is missing a cookie and web token. If it is set to false it will poplulate the user property with null
+
+**jwtMode:** defaults to direct. If set to direct JWT will use the secret provided with the jwt Secret option to verify your web token. If set to key it will use the public key from a file
+
+**jwtSecret:** Only has to be set if jwtMode is direct. The secret will be used to verify the web token if present. You will have to set the same Secret in the Authenticator.
+
+**jwtKeyLocation:** Only needs to be set if jwtMode is key. Points to the Public Key in the file system. Defaults to /data/public_key.pem
+
+**jwtHeaderName:** Session Populator will by default look for the Bearer token in the "Authorization" Header. If you want to use another header, you can change this here.
 
 To implement the middleware do the following
 
@@ -38,7 +46,15 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(sessionPoplulate());
+app.use(
+  sessionPopulate({
+    authenticatorHost: "https://my-own-host:443",
+    rejectWithoutAuthentication: "false",
+    jwtMode: "key",
+    // jwtSecret: "superSecret",
+    jwtKeyLocation: "/data/privateKey.pem",
+  })
+);
 ```
 
 **TypeScript**
@@ -52,16 +68,13 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(sessionPoplulate());
-```
-
-If you don't want to use Environment Variables on your Backend you can also inject them in the Session Populator as it uses process.env as input parameter by default, that can be overwritten. To do this do
-
-```js
 app.use(
   sessionPopulate({
-    AUTHENTICATOR_HOST: "https://my-own-host:443",
-    AUTHENTICATOR_REJECT_WITHOUT_COOKIE: "false"
+    authenticatorHost: "https://my-own-host:443",
+    rejectWithoutAuthentication: "false",
+    jwtMode: "key",
+    // jwtSecret: "superSecret",
+    jwtKeyLocation: "/data/privateKey.pem",
   })
 );
 ```

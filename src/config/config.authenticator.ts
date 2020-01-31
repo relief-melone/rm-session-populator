@@ -1,27 +1,30 @@
-export function getAuthenticatorHost(env = process.env): string {
-  return env.AUTHENTICATOR_HOST || 'http://localhost:8081';
+import UserConfig from '../interfaces/UserConfig';
+
+export function getAuthenticatorHost(env: UserConfig): string {
+  return env.authenticatorHost || 'http://localhost:8081';
 }
 
-export function getAuthenticatorPath(env = process.env): string {
-  return env.AUTHENTICATOR_USER_PATH || '/auth/userinfo';
+export function getAuthenticatorPath(env: UserConfig): string {
+  return env.authenticatorUserPath || '/auth/userinfo';
 }
 
-export function getUserInfoURL(env = process.env): string {
+export function getUserInfoURL(env: UserConfig): string {
   return `${getAuthenticatorHost(env)}${getAuthenticatorPath(env)}`;
 }
 
-export function getCookieName(env = process.env): string {
-  return env.AUTHENTICATOR_CREDENTIALS_COOKIE_NAME || 'connect.sid';
+export function getCookieName(env: UserConfig): string {
+  return env.credentialsCookieName || 'connect.sid';
 }
 
-export function getBehaviour(env = process.env): boolean {
-  return env.AUTHENTICATOR_REJECT_WITHOUT_COOKIE === 'false' ? false : true;
+export function getBehaviour(env: UserConfig): boolean {
+  return env.rejectWithoutAuthentication === false ? false : true;
 }
 
-export default (env = process.env) => ({
-  AuthenticatorHost: getAuthenticatorHost(env),
-  AuthenticatorUserPath: getAuthenticatorPath(env),
-  AuthenticatorUserURL: getUserInfoURL(env),
-  CredentialsCookieName: getCookieName(env),
-  RejectWithoutCookie: getBehaviour(env)
+
+export default (env: UserConfig) => ({
+  authenticatorHost: getAuthenticatorHost(env),
+  authenticatorUserPath: getAuthenticatorPath(env),
+  authenticatorUserURL: getUserInfoURL(env),
+  credentialsCookieName: getCookieName(env),
+  rejectWithoutAuthentication: getBehaviour(env),
 });

@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import sessionPoplulator from '../src/index';
 import { RequestWithUser } from '../src/interfaces/RequestWithUser';
 import request from 'supertest';
+import UserConfig from '../src/interfaces/UserConfig';
 
 const expectedUser = {
   displayName: 'TEST USER',
@@ -24,20 +25,20 @@ async function initializeMockAuthenticator(): Promise<any> {
       .send();
   });
 
-  await receiver.listen(8081);
+  await receiver.listen(9000);
 
   return receiver;
 }
 
-async function initializeSender(env = {}): Promise<any>  {
+async function initializeSender(settings: UserConfig = {}): Promise<any>  {
   const sender = express();
   sender.use(cookieParser());
   sender.use(express.json());
-  sender.use(sessionPoplulator(env));
+  sender.use(sessionPoplulator(settings));
   sender.use('/', (req: RequestWithUser, res, next) => {
     res.json({ user: req.user }).send();
   });
-  const server = await sender.listen(3000);
+  const server = await sender.listen(9090);
   return { sender, server };
 }
 
@@ -54,11 +55,13 @@ describe('MAIN', () => {
     
   });
   afterEach(async () => {
-    await closeServer(express.server);
+    await closeServer(express.server);    
   });
 
   it('will return a 401 without a cookie by default', async () => {
-    express = await initializeSender();
+    express = await initializeSender({
+      authenticatorHost: 'http://localhost:9000'
+    });
     const sender = await request(express.sender).get('/');
     
     expect(sender.status).to.equal(401);
@@ -66,7 +69,8 @@ describe('MAIN', () => {
 
   it('will retun a request with no user when reject has been turned off', async () => {
     express = await initializeSender({
-      AUTHENTICATOR_REJECT_WITHOUT_COOKIE: 'false'
+      rejectWithoutAuthentication: false,
+      authenticatorHost: 'http://localhost:9000'    
     });
     const res = await request(express.sender).get('/');
     
@@ -75,7 +79,9 @@ describe('MAIN', () => {
   });
 
   it('will return a request with a user when the cookie is supplied', async () => {
-    express = await initializeSender();
+    express = await initializeSender({
+      authenticatorHost: 'http://localhost:9000'
+    });
 
     const res = await request(express.sender)
       .get('/')
