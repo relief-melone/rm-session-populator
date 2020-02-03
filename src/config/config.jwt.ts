@@ -23,7 +23,7 @@ export const getKeyLocation = (env: UserConfig): string => {
 };
 
 export const getHeaderName = (options: UserConfig): string => {
-  return options.jwtHeaderName || 'Authorization';
+  return options.jwtHeaderName || 'authorization';
 };
 
 export default (env: UserConfig): ConfigJWT => ({
