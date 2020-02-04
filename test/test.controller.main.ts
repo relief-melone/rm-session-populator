@@ -1,7 +1,6 @@
 import controller from '../src/controllers/controller.main';
 import sinon from 'sinon';
 import { Request } from 'express';
-import { expect } from 'chai';
 
 describe('controller.main', () => {
   

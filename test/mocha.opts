@@ -1,4 +1,2 @@
 --recursive
---timeout 5000
---exit
 ./dist/test
