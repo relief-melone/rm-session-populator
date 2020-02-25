@@ -49,7 +49,7 @@ app.use(express.json());
 app.use(
   sessionPopulate({
     authenticatorHost: "https://my-own-host:443",
-    rejectWithoutAuthentication: "false",
+    rejectWithoutAuthentication: false,
     jwtMode: "key",
     // jwtSecret: "superSecret",
     jwtKeyLocation: "/data/privateKey.pem",
@@ -71,7 +71,7 @@ app.use(express.json());
 app.use(
   sessionPopulate({
     authenticatorHost: "https://my-own-host:443",
-    rejectWithoutAuthentication: "false",
+    rejectWithoutAuthentication: false,
     jwtMode: "key",
     // jwtSecret: "superSecret",
     jwtKeyLocation: "/data/privateKey.pem",
