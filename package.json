@@ -1,6 +1,6 @@
 {
   "name": "rm-session-populator",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -40,7 +40,7 @@
     "axios-mock-adapter": "^1.17.0",
     "cookie-parser": "^1.4.4",
     "eslint": "^6.8.0",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.1",
     "nyc": "^14.1.1"
   }
 }
