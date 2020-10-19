@@ -19,6 +19,21 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "outFiles": ["${workspaceFolder}/dist/**/*.js"]
-    }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "/root/.nvm/versions/node/v14.13.1/bin/node",
+      "name": "Unit Tests (WSL)",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/test"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
   ]
 }

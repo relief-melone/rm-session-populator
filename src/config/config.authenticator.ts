@@ -1,3 +1,4 @@
+import ConfigAuthenticator from '../interfaces/ConfigAuthenticator';
 import UserConfig from '../interfaces/UserConfig';
 
 export function getAuthenticatorHost(env: UserConfig): string {
@@ -21,7 +22,7 @@ export function getBehaviour(env: UserConfig): boolean {
 }
 
 
-export default (env: UserConfig) => ({
+export default (env: UserConfig): ConfigAuthenticator => ({
   authenticatorHost: getAuthenticatorHost(env),
   authenticatorUserPath: getAuthenticatorPath(env),
   authenticatorUserURL: getUserInfoURL(env),

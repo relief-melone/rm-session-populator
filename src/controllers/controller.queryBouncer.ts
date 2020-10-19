@@ -1,19 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
-import ConfigAuthenticator from '../config/config.authenticator';
+import ConfigQueryBouncer from '../config/config.queryBouncer';
 import ConfigJWT from '../config/config.jwt';
 import { RequestWithUser } from '../interfaces/RequestWithUser';
-import GetUserByCookie from '../services/getUserByCookie';
-import controllerUser from './controller.user';
-import controllerQueryBouncer from './controller.queryBouncer';
+
 import UserConfig from '../interfaces/UserConfig';
+
 
 export default (config: UserConfig) => async function(
   req: RequestWithUser, 
   res: Response, 
   next: NextFunction, 
+  configQueryBouncer = ConfigQueryBouncer(config),
+  configJWT = ConfigJWT(config)
 ): Promise<Response | void> {
-  await controllerUser(config)(req, res, next);
-  await controllerQueryBouncer(config)(req,res,next);
-
-  next();
+  if(configQueryBouncer.enabled && req.user){
+    await req.user.updateQueryBouncerInformation(configQueryBouncer, req.headers[configJWT.headerName] as string);
+  }
+  return;
 };

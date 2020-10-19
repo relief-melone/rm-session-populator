@@ -78,3 +78,34 @@ app.use(
   })
 );
 ```
+
+### Implement Query Bouncer information
+
+You also have the option to add the information gathered from the query bouncer to this user. The user object will then also contain a queryBouncer object with the following signature
+
+```ts
+req.user;
+{
+  // ...
+  queryBouncer: {
+    permissions: string[],
+    internalPermissions: string[]
+    roles: string[],
+    roleAssignments: string[]
+  }
+}
+```
+
+To activate this information your config needs the queryBouncer section
+
+```ts
+app.use(
+  sessionPopulate({
+    // ...
+    queryBouncer: {
+      host: 'https://my-query-bouncer.something.com'
+    }
+  })
+);
+
+```

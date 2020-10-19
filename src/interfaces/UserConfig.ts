@@ -7,4 +7,7 @@ export default interface UserConfig {
   jwtSecret?: string;
   jwtKeyLocation?: string;  
   jwtHeaderName?: string;
+  queryBouncer?: {
+    host: string;
+  };
 }

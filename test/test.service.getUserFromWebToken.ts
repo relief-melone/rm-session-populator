@@ -7,10 +7,10 @@ import fs from 'fs';
 
 chai.use(chaiExclude);
 
-describe('service.getUserFromWebToken', () => {
+describe.only('service.getUserFromWebToken', () => {
 
   const defaultUser = {
-    name: 'Max Power',
+    displayName: 'Max Power',
     email: 'max.power@aol.com'
   };
 
@@ -22,7 +22,8 @@ describe('service.getUserFromWebToken', () => {
       jwtSecret: 'superSecret'
     }));
 
-    expect(user).excluding(['iat']).to.deep.equal(defaultUser);
+    expect(user.email).to.equal(defaultUser.email);
+    expect(user.displayName).to.equal(defaultUser.displayName);
     
   });
 
@@ -35,7 +36,8 @@ describe('service.getUserFromWebToken', () => {
       jwtKeyLocation: `${__dirname}/../../test/key/public_key.pem`
     }));
 
-    expect(user).excluding(['iat']).to.deep.equal(defaultUser);
+    expect(user.email).to.equal(defaultUser.email);
+    expect(user.displayName).to.equal(defaultUser.displayName);
     
   });
 

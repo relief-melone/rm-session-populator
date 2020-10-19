@@ -1,8 +1,8 @@
-import controller from '../src/controllers/controller.main';
+import controller from '../src/controllers/controller.user';
 import sinon from 'sinon';
 import { Request } from 'express';
 
-describe('controller.main', () => {
+describe('controller.user', () => {
   
   const defaultUser = {
     Name: 'Max Power',

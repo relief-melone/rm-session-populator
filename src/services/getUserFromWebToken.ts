@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken';
+import User, { UserI } from '../classes/class.User';
 import ConfigJWT from '../interfaces/ConfigJWT';
 
 
-export const verifyWithKey = (token: string| undefined, config: ConfigJWT): object | null => {
+export const verifyWithKey = (token: string| undefined, config: ConfigJWT): UserI | null => {
   try {
     const user = jwt.verify(token, config.secret, {
       algorithms: [config.algorithm]
-    }) as object;
+    }) as UserI;
     return user;
   } catch (err) {
     return null;
@@ -14,21 +15,23 @@ export const verifyWithKey = (token: string| undefined, config: ConfigJWT): obje
   
 };
 
-export const verifyWithSecret = (token: string, config: ConfigJWT): object | null => {
+export const verifyWithSecret = (token: string, config: ConfigJWT): UserI | null => {
   try {
-    return jwt.verify(token, config.secret) as object;
+    return jwt.verify(token, config.secret) as UserI;
   } catch (err) {
     return null;
   }
   
 };
 
-export default (header: string, config: ConfigJWT): object | null => {
+export default (header: string, config: ConfigJWT): User | null => {
   if(!header) return null;
   const rawHeader = header.replace('Bearer ', '');
-  const token = config.mode === 'direct' ?
+  const userinput: UserI = config.mode === 'direct' ?
     verifyWithSecret(rawHeader, config) :
     verifyWithKey(rawHeader, config);
 
-  return token;
+  const user = userinput ? new User(userinput) : null;
+
+  return user;
 };

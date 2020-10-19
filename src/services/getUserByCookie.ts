@@ -1,7 +1,8 @@
 import axios from 'axios';
+import User from '../classes/class.User';
 import ConfigAuthenticator from '../interfaces/ConfigAuthenticator';
 
-export default async (cookies: Record<string,any>, config: ConfigAuthenticator): Promise<Record<string,any> | null> => {
+export default async (cookies: Record<string,any>, config: ConfigAuthenticator): Promise<User| null> => {
   
   const credentialsCookie = cookies[config.credentialsCookieName];
   if (!credentialsCookie)
