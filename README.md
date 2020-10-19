@@ -89,9 +89,6 @@ req.user;
   // ...
   queryBouncer: {
     permissions: string[],
-    internalPermissions: string[]
-    roles: string[],
-    roleAssignments: string[]
   }
 }
 ```

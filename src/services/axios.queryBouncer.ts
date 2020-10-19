@@ -1,5 +1,4 @@
-import Axios, { AxiosInstance } from 'axios';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { ConfigQueryBouncer } from '../config/config.queryBouncer';
 
 export default(config: ConfigQueryBouncer, authHeader: string): AxiosInstance => {

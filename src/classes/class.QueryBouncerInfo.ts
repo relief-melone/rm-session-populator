@@ -25,7 +25,7 @@ export default class QueryBouncerInfo {
   }
 
   async updateQueryBouncerInformation(): Promise<void>{
-    this.axios.get('/api/admin/permissions/myPermissions');
+    this.axios.get('/api/admin/permissions/myPermissions');    
     this.permissions = await defaultGet(this.axios, '/api/admin/permissions/myPermissions', []);
   }
 }

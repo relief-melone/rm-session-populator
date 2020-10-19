@@ -1,8 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import ConfigAuthenticator from '../config/config.authenticator';
-import ConfigJWT from '../config/config.jwt';
+import { Response, NextFunction } from 'express';
 import { RequestWithUser } from '../interfaces/RequestWithUser';
-import GetUserByCookie from '../services/getUserByCookie';
 import controllerUser from './controller.user';
 import controllerQueryBouncer from './controller.queryBouncer';
 import UserConfig from '../interfaces/UserConfig';

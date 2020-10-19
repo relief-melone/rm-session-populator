@@ -1,6 +1,6 @@
 {
   "name": "rm-session-populator",
-  "version": "2.2.0-beta.8",
+  "version": "2.2.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
